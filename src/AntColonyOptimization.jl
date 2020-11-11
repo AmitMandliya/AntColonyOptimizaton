@@ -366,6 +366,25 @@ function write_to_file(output_filename, aligned_sequences)
     close(f) 
 end
 
+function generator(sequence_length, number_of_sequence)
+    seuqences = []
+    bases = ["A", "C", "G", "T"]
+    current_sequence = []
+    for i in 1:sequence_length
+        push!(current_sequence, bases[rand(1:4)])
+    end
+    push!(seuqences, join(current_sequence))
+    for i in 1:number_of_sequence-1
+        changes = rand(floor(0.3*sequence_length) : floor(0.6*sequence_length))
+        for t in 1: changes
+            location = rand(1:sequence_length)
+            current_sequence[location] = bases[rand(1:4)]
+        end
+        push!(seuqences, join(current_sequence))
+    end
+    return seuqences
+end
+
 # this is the driver function which take the fasta file as input and writes the output to the output.txt file.
 # the default input to this function is input.fasta which should be present in the same folder as this code.
 function driver(filename="input1.txt",output_filename = "output1.txt")
